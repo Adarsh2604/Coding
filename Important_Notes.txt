@@ -1,0 +1,714 @@
+Lower Bound :- Works on shorted list. Agar element present hai to element ka location return hoga nahi to element se just bara find hoga.
+
+
+Upper Bound :- Works on shorted list. In either cases next biggest elemeent's location returned.
+
+Syntax :-  
+	lower_bound(start,end,element);
+
+Note:- set , map etc ke cases me
+	s.lower_bound(element);
+
+
+
+void printBinary(int n){
+	int i=0;
+	int k=10;
+	while(k--){
+		cout << ((n>>k) & 1);
+		i++;
+	}
+	cout << endl;
+}
+
+	printBinary(7);
+	// Unset i-th bit
+	printBinary(7 & ~ (1 << 2));
+
+	// set i-th bit
+	printBinary(7 | (1<< 3));
+
+	// Count set bits
+	 __builtin_popcount(6);
+
+	 //For long number
+	 __builtin_popcountll(6);
+
+
+** For odd number N, ( N & 1 == 1)
+
+// convert to uppercase chars
+	char ( 'A'+ c-'a') 
+	char ( c & ~(1<<5))
+	or, (char  & '_');
+	
+// convert to lowercase
+     char( char | ' ') //char (1 << 5) == ' '// whitespace 
+
+
+ Binary representation of (x-1) can be obtained by simply flipping all the bits to the right of rightmost 1 in x and also including the rightmost 1.
+
+Properties for numbers which are powers of 2, is that they have one and only one bit set in their binary representation. If the number is neither zero nor a power of two, it will have 1 in more than one place. So if x is a power of 2 then x & (x-1) will be 0.
+
+
+ X ^ X = 0
+ X ^ 0 = X
+ Associative
+
+
+void possibleSubsets(char A[], int N)
+{
+    for(int i=0; i < (1 << N); i++){
+      cout << "{";
+      for(int j=0; j< N; j++){
+        if(i & ( 1 << j)){
+          cout << A[j]<< ",";
+        }
+      }
+      cout << "}" << endl;
+    }
+}
+
+
+//GCD
+  product/(LCM) = GCD
+
+//Binary search
+int _lower_bound(vector <int> &v,int key){
+   int s=0,e=v.size()-1;
+   int ans = -1;
+   while(e>=s){
+      int m = (s+e)/2;
+      if(v[m]==key){
+         ans = m;
+         e= m-1;
+      }else if(v[m] < key){
+         s = m+1;
+      }
+      else
+         e= m-1;
+         
+   }
+   return ans;
+}
+int _upper_bound(vector <int> &v,int key){
+   int s=0,e=v.size()-1;
+   int ans = -1;
+   while(e>=s){
+      int m = (s+e)/2;
+      if(v[m]==key){
+         ans = m;
+         s = m+1; 
+      }else if(v[m] < key)
+         s = m+1;
+      else
+         e= m-1;
+         
+   }
+   return ans==-1 ? ans : ans+1;
+}
+int freq(int k,vector<int> &v){
+   auto s1 = _upper_bound(v,k);
+ auto s2 = _lower_bound(v,k);
+ cout << s1 << " " << s2 << endl;
+ return (s1-s2);
+}
+
+
+
+
+//Iterative Binary exponentian
+int binarExpItr(int a, int b){
+    int ans =1;
+    while(b>0){
+        if(b & 1){
+            ans = (a*1LL* ans)%M;
+        }
+        a = (a*1LL*a)%M;
+        b >>= 1;
+    }
+    return ans;
+}
+int main()
+{
+    cout << binarExpItr(2,600);
+    
+}
+
+
+****BIG POWER*****
+a^(b^c)== (a^(b^c)%phi(mod))%mod;
+phi(mod) = mod(1-1/p)(1-1/q)
+where p,q... are co prime factors of mod...so if mod is prime then
+phi(mod)== mod-1
+
+
+
+
+
+ // Prime calculation
+    /*
+      for(int i=2; i<N; i++){
+        if(isPrime==true){
+            for(int j=i*2; j<N; j+=i){
+                isPrime[j] = false;
+            }
+        }    
+    }
+    */
+
+
+// divide and conquer minimum and maximum approach
+#include <bits/stdc++.h>
+using namespace std;
+vector <int> v={8,34,23,1989,1223,3,789,45,2,3,86,21,-1,80};
+int maxMin(int low,int high){
+   if(high-low==1){
+      return min(v[high],v[low]);
+   }
+   if(low==high){
+      return v[low];
+   }
+   int mid = (low+high)/2;
+   return min(maxMin(low,mid),maxMin(mid+1,high));
+
+
+}
+int main(){
+   int minm=INT_MAX;
+   int maxm = INT_MIN;
+
+   cout <<maxMin(0,v.size()-1);
+
+}
+
+
+//min and max from the same array
+#include <bits/stdc++.h>
+using namespace std;
+vector <int> v={8,34,23,1989,12230,3,789,45,2,3,86,21,90,80};
+void maxMin(int low,int high,int &minm,int &maxm){
+   if(high-low==1){
+      minm =min(minm, min(v[high],v[low]));
+      maxm = max(maxm,max(v[high],v[low])); 
+      return;
+
+   }
+   if(low==high){
+      maxm = max(maxm,v[low]);
+      minm = min(minm,v[high]);
+      return;
+   }
+   int mid = (low+high)/2;
+    maxMin(low,mid,minm,maxm);
+    maxMin(mid+1,high,minm,maxm);
+
+}
+
+
+
+/*************DFS***************/
+int main() Check symmetry in tree
+  bool compare(TreeNode *l,TreeNode *r){
+        if(!l && !r) return true;
+        if((!r && l)||(!l && r)) return false;
+        if(l->val != r->val) return false;
+        return compare(l->left,r->right)&& compare(l->right,r->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        return compare(root->left,root->right);
+        
+    }
+
+
+    //max depth of tree
+     int maxDepth(TreeNode* root) {
+        if(!root) return 0;
+        int i,j;
+        i=maxDepth(root->left);
+               i++;
+      j= maxDepth(root->right);
+               j++;
+        return max(i,j);
+               
+    }
+
+
+    //BST IF TREE NODES SUM UP TO TARGET SUM OR NOT
+     bool hasPathSum(TreeNode* root, int target) {
+        if(!root) return false;
+        if(!root && target!=0)  return false;
+        if(!root->left && !root->right) return target==root->val;
+        return hasPathSum(root->left,target-root->val) || hasPathSum(root->right,target-root->val);  
+    }
+   int minm=INT_MAX;
+   int maxm = INT_MIN;
+   maxMin(0,v.size()-1,minm,maxm);
+   cout << minm << endl << maxm;
+
+}
+
+
+
+
+// Check symmetry in tree
+  bool compare(TreeNode *l,TreeNode *r){
+        if(!l && !r) return true;
+        if((!r && l)||(!l && r)) return false;
+        if(l->val != r->val) return false;
+        return compare(l->left,r->right)&& compare(l->right,r->left);
+    }
+    bool isSymmetric(TreeNode* root) {
+        return compare(root->left,root->right);
+        
+    }
+
+
+    //max depth of tree
+     int maxDepth(TreeNode* root) {
+        if(!root) return 0;
+        int i,j;
+        i=maxDepth(root->left);
+               i++;
+      j= maxDepth(root->right);
+               j++;
+        return max(i,j);
+               
+    }
+
+
+    //BST IF TREE NODES SUM UP TO TARGET SUM OR NOT
+     bool hasPathSum(TreeNode* root, int target) {
+        if(!root) return false;
+        if(!root && target!=0)  return false;
+        if(!root->left && !root->right) return target==root->val;
+        return hasPathSum(root->left,target-root->val) || hasPathSum(root->right,target-root->val);  
+    }
+
+
+    **/**
+    {
+    	/**Take action on vertex after
+    	 * entering the vertex
+    	 **/
+
+    	for(int child :nodes){
+    	/**
+    	 * Take action on child node before entering
+    	 * the child node.
+    	 **/
+    	 dfs(child);
+    	 /**
+    	  * Take action on child node after entering
+    	  * the child node
+
+    	}
+
+    	// Take action on vertex before exiting it.
+    }
+
+
+    //Hashing of string
+    long long compute_hash(string const& s) {
+    const int p = 31;
+    const int m = 1e9 + 9;
+    long long hash_value = 0;
+    long long p_pow = 1;
+    for (char c : s) {
+        hash_value = (hash_value + (c - 'a' + 1) * p_pow) % m;
+        p_pow = (p_pow * p) % m;
+    }
+    return hash_value;
+}
+
+
+
+/* Multi source BFS */
+#include <bits/stdc++.h>
+using namespace std;
+const int N=184;
+const int INF = 1e9+10;
+int g[N][N];
+int visited[N][N];
+int level[N][N];
+int result[N][N];
+int n,m;
+vector <pair <int,int>> movements={
+  {1,0},{0,1},{-1,0},{0,-1}
+};
+
+void reset (){
+  for(int i=0; i<N; i++)
+    for(int j=0; j<N; j++){
+      visited[i][j]=0;
+      level[i][j]=0;
+    }
+    
+}
+bool isValid(int i,int j){
+  return (i >=0 && i <n && j>=0 && j<m );
+}
+
+
+
+void bfs(){
+  queue <pair<int,int>> q;
+  for(int i=0; i<n; i++){
+    for(int j=0; j<m; j++){
+      if(g[i][j]==1){
+        q.push({i,j});
+        visited[i][j]=1;
+      }
+    }
+  }
+
+  while(!q.empty()){
+    auto s_e = q.front();
+    q.pop();
+    int x_s = s_e.first;
+    int y_s = s_e.second;
+    visited[x_s][y_s] = 1;
+    for(auto movement: movements){
+      int x_m = x_s + movement.first;
+      int y_m = y_s + movement.second;
+      if(isValid(x_m,y_m) && !visited[x_m][y_m]){
+        visited[x_m][y_m] = 1;
+        level[x_m][y_m]= level[x_s][y_s]+1;
+        q.push({x_m,y_m});
+      }
+    }
+  }
+}
+
+
+
+
+
+int main(){
+  int tc; cin >> tc;
+  while(tc--){
+   reset();
+   cin >> n >> m;
+   for(int i=0; i<n; i++){
+    string str; cin >> str;
+    for(int j=0; j<m; j++){
+      g[i][j]=str[j]-'0';
+      
+    }
+   }
+
+   bfs();
+   for(int i=0; i<n; i++){
+    for(int j=0; j<m; j++){
+      cout << level[i][j] << " ";
+    }
+    cout << endl;
+   }
+  } 
+
+
+}
+
+
+
+
+//
+
+p+q = (p ^ q) + 2 * (p & q)
+
+
+
+fractional knapsack
+
+
+#include <bits/stdc++.h>
+using namespace std;
+struct item
+{
+    int value,weight;
+};
+bool cmp(item a,item b)
+{
+    double r1=(double)a.value/a.weight;
+    double r2=(double)b.value/b.weight;
+    return(r1>r2);
+}
+
+
+///// Fractional knapsack
+
+
+int main(){
+  int num; cin >> num;
+  item i[num];
+  for(int j=0; j<num; j++){
+    int n1; cin >> n1;
+    i[j].weight = n1;
+  }
+  for(int j=0; j<num; j++){
+    int n1; cin >> n1;
+    i[j].value = n1;
+  }
+  int maxWeight; cin >> maxWeight;
+  sort(i,i+num,cmp);
+  int w=0,j=0;
+  double p=0;
+  while(w < maxWeight && j< num){
+    if(w+i[j].weight>maxWeight)
+      break;
+    else{
+      w += i[j].weight;
+      p += i[j].value;
+    }
+    j++;
+  }
+  if(w < maxWeight)
+  p += (maxWeight - w)*((double)i[j].value/i[j].weight);
+  cout << p ;
+
+}
+
+
+////Inversion count
+#include <bits/stdc++.h>
+using namespace std;
+
+int merge(int arr[],int l, int m, int r){
+  int n1 = m - l + 1;
+  int n2 = r - m;
+  int inv=0;
+  int L[n1],R[n2];
+  for(int i=0; i<n1; i++)
+    L[i]= arr[l+i];
+  for(int i=0; i<n2; i++)
+    R[i]= arr[m + i + 1];
+
+  int i=0,j=0,k=l;
+  while(i < n1 && j < n2){
+    if(L[i] <= R[j])
+      arr[k++]=L[i++];
+    else
+    {
+        arr[k++]=R[j++];
+        inv += n1 - i;
+    }
+  }
+  while(i < n1)
+    arr[k++]=L[i++];
+  while(j < n2)
+    arr[k++]=R[j++];
+
+  return inv;
+}
+
+int mergesort(int arr[],int l,int r){
+  int inv=0;
+  if(r > l){
+    int m = l + (r - l)/2;
+    inv += mergesort(arr,l,m);
+    inv += mergesort(arr,m+1,r);
+    inv+= merge(arr,l,m,r);
+
+  }
+  return inv;
+}
+
+int main(){
+  int n; cin >> n;
+  int arr[n];
+  for(int i=0; i<n; i++){
+    cin >> arr[i];
+  }
+  cout << mergesort(arr,0,n-1) << endl;
+  for(int i=0; i<n; i++)
+    cout << arr[i] << " ";
+}
+
+
+//
+int partition(int *arr,int l, int r){
+
+  int i=l-1;
+  int pivot = arr[r];
+  for(int k=l;k<=r;k++){
+    if(arr[k] < pivot){
+      i++;
+      swap(arr[i],arr[k]);
+    }
+  }
+  swap(arr[i+1],arr[r]);
+  return i+1;
+}
+// 0 3 5 6 7 9 12 21 40 43 67 78
+
+int quick_sort(int *arr, int l, int r,int k){
+  if(l >= r) return arr[l];
+  int p= partition(arr,l,r);
+  if(p==k) return arr[p];
+  else if(p > k) return quick_sort(arr,l,p-1,k);
+  else  return quick_sort(arr,p+1,r,k);
+  
+
+}
+
+
+
+// job sequencing
+#include <bits/stdc++.h>
+using namespace std;
+
+struct jobStruct{
+  int id;
+  int profit,deadline;
+};
+bool cmp(jobStruct j1,jobStruct j2){
+  return j1.profit > j2.profit;
+}
+int main(){
+  int n; cin >> n;
+  jobStruct job[n];
+  int mx_deadline=0;
+  for(int i=0; i<n; i++){
+    int id,p,d; cin >> id >> d >> p;
+    job[i].id = id;
+    job[i].profit = p;
+    job[i].deadline = d;
+
+  }
+
+  sort(job,job+n,cmp);
+  int slot[n]={0};
+  int profit=0;
+  for(int i=0; i<n; i++){
+    for (int j = job[i].deadline - 1; j >= 0; j--)
+        {
+            if (j < n && slot[j] == 0)
+            {
+                slot[j] = job[i].id;
+                profit += job[i].profit;
+                break;
+            }
+        }
+  }
+  cout  << profit << endl;
+  for(int i=0; i<n; i++){
+    if(slot[i])
+    cout << slot[i] << " ";
+  }
+}
+
+
+// Number of ways to write a number in form x^2 + y^2
+int kSumSquares(int n)
+{
+ int r2_n=4;
+ for (int i = 2;
+        i * i <= n; i++)
+{
+    int count = 0;
+    if (n % i == 0)
+    {
+
+        while (n % i == 0)
+        {
+            count++;
+            n /= i;
+        }
+        if (i % 4 == 3 && count % 2 != 0)
+            return 0;
+        if(i%4 == 1 && i!=2)
+            r2_n *= (count+1);
+
+    }
+}
+
+ return n % 4 != 3 ? r2_n: 0;
+}
+
+
+/// subarray xor
+int main(){
+  vector <int> arr={4,2,2,6,4};
+  int k = 6,count=0;
+  unordered_map<int,int> mp;
+  int x_or = 0;
+  for(int i=0; i<arr.size(); i++){
+    x_or = x_or ^ arr[i];
+    if(x_or == k)
+      count++;
+    int y = x_or ^ k;
+    if(mp[y] > 0)
+      count += mp[y];
+    else
+      mp[x_or]++;
+   
+  }
+  cout << count ;
+} 
+
+
+
+
+//// subsequence sum
+#include<bits/stdc++.h>
+using namespace std;
+void print(vector<int> str,vector<vector<int>> &v,vector<int>s,int ssfr,int sum){
+  if(!str.size()){
+    if(ssfr==sum)
+      v.push_back(s);
+
+    return;
+  }
+  if(ssfr==sum){
+      v.push_back(s);
+      return;
+    }
+
+  int e=str[0];
+  ssfr+=e;
+  s.push_back(e);
+  str.erase(str.begin());
+  print(str,v,s,ssfr,sum);
+  s.pop_back();
+  ssfr-=e;
+  print(str,v,s,ssfr,sum);
+}
+int main() {
+ vector <int> str={1,2,3,4,5};
+ int sum=6;
+ vector <vector<int>> v;
+ vector<int>s;
+ print(str,v,s,0,sum);
+ for(auto s: v){
+  for(auto e: s){
+    cout << e << " ";
+  }
+  cout << endl;
+}
+ return 0;
+}
+
+
+
+#######################
+
+10,89
+n 2n 3n 4n 5n....m
+n+1 2(n+1) 3(n+1) 4(n+1)....m
+n+2 2(n+2) 3(n+2) 4(n+2)....m
+n+3 2(n+3) 3(n+3) 4(n+3)....m
+n+4 2(n+4) 3(n+4) 4(n+4)....m
+
+(n+k)(l-1)=y
+n*l - n + k*l - k = Y
+nx - n + xy - y = Y
+
+
+
+
+10 20 30 40 50 60 70 80  => 70
+11 22 33 44 55 66 77 88  => 77
+12 24 36 48 60 72 84     => 72
+13 26 39 52 65 78        => 65
+14 28 42 56 70 84        => 70
+15 30 45 60 75           => 60
